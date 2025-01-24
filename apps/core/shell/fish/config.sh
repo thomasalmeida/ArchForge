@@ -10,13 +10,13 @@ configure_fish() {
         fi
 
         # Set as default shell
-        chsh -s /usr/bin/fish
+        chsh -s /usr/bin/fish || log_error "Failed to set fish as default shell"
 
         # Install Oh My Fish
-        fish -c "curl -L https://get.oh-my.fish | fish"
+        fish -c "curl -L https://get.oh-my.fish | fish" || log_error "Failed to install Oh My Fish"
 
         # Install Catppuccin theme
-        fish -c "omf install https://github.com/catppuccin/fish"
+        fish -c "omf install https://github.com/catppuccin/fish" || log_error "Failed to install Catppuccin theme"
 
         log_success "Fish shell configured successfully"
     else

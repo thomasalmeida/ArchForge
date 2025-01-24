@@ -1,5 +1,9 @@
 #!/bin/bash
+
 source "scripts/utils.sh"
+
+# Check for sudo privileges right at the start
+check_sudo
 
 configure_system() {
     bash "system/pacman/config.sh"

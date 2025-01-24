@@ -7,11 +7,17 @@ install_asdf() {
 
     # Get latest release
     log_info "Getting latest asdf version..."
-    latest_asdf_release=$(curl -s "https://api.github.com/repos/asdf-vm/asdf/releases/latest" | jq -r .tag_name)
+    latest_asdf_release=$(curl -s "https://api.github.com/repos/asdf-vm/asdf/releases/latest" | jq -r .tag_name) || {
+        log_error "Failed to get latest ASDF version"
+        return 1
+    }
 
     # Clone asdf repo with latest version
     log_info "Cloning asdf repository..."
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch $latest_asdf_release
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch $latest_asdf_release || {
+        log_error "Failed to clone ASDF repository"
+        return 1
+    }
 
     log_success "asdf installation complete! Proceeding with configuration..."
 }

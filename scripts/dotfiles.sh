@@ -13,13 +13,19 @@ setup_dotfiles() {
         log_info "Setting up dotfiles..."
 
         # Clone dotfiles to temp directory
-        git clone "$dotfiles_repo" "$temp_dir"
+        git clone "$dotfiles_repo" "$temp_dir" || {
+            log_error "Failed to clone dotfiles repository"
+            return 1
+        }
 
         # Create .config if it doesn't exist
         mkdir -p "$config_dir"
 
         # Move everything from temp to .config, forcing overwrite
-        cp -rf "$temp_dir"/* "$temp_dir"/.[!.]* "$config_dir" 2>/dev/null
+        cp -rf "$temp_dir"/* "$temp_dir"/.[!.]* "$config_dir" 2>> "$ERROR_LOG" || {
+            log_error "Failed to copy dotfiles to config directory"
+            return 1
+        }
 
         log_success "Dotfiles installed successfully"
     else

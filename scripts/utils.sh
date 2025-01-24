@@ -43,6 +43,14 @@ initialize_logs() {
     chmod 600 "$INSTALL_LOG" "$ERROR_LOG"
 }
 
+# Sudo check function
+check_sudo() {
+    if ! sudo -v &> /dev/null; then
+        log_error "Sudo privileges required"
+        exit 1
+    fi
+}
+
 # Helper functions
 backup_file() {
     local file=$1

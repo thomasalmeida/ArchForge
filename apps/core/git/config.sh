@@ -12,7 +12,10 @@ configure_git() {
         read -p "Enter your git email: " git_email
 
         # Copy base config
-        cp "$(dirname "$0")/gitconfig" "$HOME/.gitconfig"
+        cp "$(dirname "$0")/gitconfig" "$HOME/.gitconfig" || {
+            log_error "Failed to copy gitconfig"
+            return 1
+        }
 
         # Add user settings
         git config --global user.name "$git_name"
