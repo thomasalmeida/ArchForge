@@ -20,6 +20,9 @@ configure_services() {
     bash "apps/core/shell/fish/config.sh"
     bash "apps/core/shell/starship/config.sh"
 
+    # Configure editors
+    bash "apps/core/editors/vim/config.sh"
+
     # Configure development tools
     bash "apps/dev/docker/services.sh"
     bash "apps/dev/asdf/config.sh"
