@@ -16,6 +16,9 @@ configure_services() {
     # Configure core services
     bash "apps/core/services/audio/services.sh"
 
+    # Configure Git
+    bash "apps/core/git/config.sh"
+
     # Configure shell
     bash "apps/core/shell/fish/config.sh"
     bash "apps/core/shell/starship/config.sh"

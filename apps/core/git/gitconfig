@@ -1,0 +1,13 @@
+[cola]
+    theme = flat-dark-grey
+    icontheme = dark
+    boldheaders = true
+    statusindent = true
+    fontdiff = Monospace,10,-1,5,50,0,0,0,0,0
+    textwidth = 60
+    spellcheck = true
+    tabwidth = 8
+[init]
+    defaultBranch = main
+[core]
+    pager = cat
