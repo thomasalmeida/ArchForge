@@ -80,6 +80,21 @@ install_packages_from_conf() {
     log_success "${description} installed successfully"
 }
 
+validate_config_paths() {
+    local required_paths=(
+        "environments/$ENV_CHOICE/packages.conf"
+        "hardware/gpu/$GPU_VENDOR/packages.conf"
+        "packages/base.conf"
+    )
+
+    for path in "${required_paths[@]}"; do
+        if [ ! -f "$path" ]; then
+            log_error "Missing config file: $path"
+            return 1
+        fi
+    done
+}
+
 # Failed packages tracking
 FAILED_PACKAGES=()
 

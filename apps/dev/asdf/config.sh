@@ -2,62 +2,62 @@
 
 source "$(dirname "$0")/../../../scripts/utils.sh"
 
-install_asdf() {
-    log_info "Installing asdf version manager..."
+configure_asdf() {
+    local asdf_dir="$HOME/.asdf"
+    local fish_conf="$HOME/.config/fish/config.fish"
 
-    # Get latest release
-    log_info "Getting latest asdf version..."
-    latest_asdf_release=$(curl -s "https://api.github.com/repos/asdf-vm/asdf/releases/latest" | jq -r .tag_name) || {
-        log_error "Failed to get latest ASDF version"
-        return 1
-    }
+    log_info "Configuring asdf version manager..."
 
-    # Clone asdf repo with latest version
-    log_info "Cloning asdf repository..."
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch $latest_asdf_release || {
-        log_error "Failed to clone ASDF repository"
-        return 1
-    }
+    # Clone asdf repository if not exists
+    if [ ! -d "$asdf_dir" ]; then
+        git clone https://github.com/asdf-vm/asdf.git "$asdf_dir" --branch v0.14.0 >> "$INSTALL_LOG" 2>> "$ERROR_LOG" || {
+            log_error "Failed to clone asdf repository"
+            return 1
+        }
+    fi
 
-    log_success "asdf installation complete! Proceeding with configuration..."
-}
+    # Configure Fish shell
+    if [ -x "$(command -v fish)" ]; then
+        log_info "Setting up Fish shell integration"
 
-setup_asdf() {
-    if ! command -v asdf &> /dev/null; then
-        log_error "asdf is not installed"
-        return 1
-    }
+        # Create fish config directory if needed
+        mkdir -p "$(dirname "$fish_conf")"
 
-    log_info "Configuring asdf plugins and runtime versions..."
+        # Add asdf to fish configuration
+        if ! grep -q 'asdf.fish' "$fish_conf"; then
+            echo "source $HOME/.asdf/asdf.fish" >> "$fish_conf"
 
-    # Development tools
+            # Completions for fish
+            mkdir -p "$HOME/.config/fish/completions"
+            ln -sfv "$asdf_dir/completions/asdf.fish" "$HOME/.config/fish/completions/asdf.fish" >> "$INSTALL_LOG" 2>> "$ERROR_LOG"
+        fi
+
+        # Add plugins path to fish
+        if ! fish -c 'echo $fish_user_paths' | grep -q '.asdf/bin'; then
+            fish -c "set -Ua fish_user_paths $HOME/.asdf/bin" >> "$INSTALL_LOG" 2>> "$ERROR_LOG"
+        fi
+    else
+        log_warning "Fish shell not found, skipping asdf integration"
+    fi
+
+    # Install plugins
+    log_info "Installing asdf plugins..."
     local plugins=(
-        "nodejs"
-        "python"
-        "ruby"
-        "rust"
-        "golang"
-        "lazydocker"
+        "nodejs https://github.com/asdf-vm/asdf-nodejs.git"
+        "python https://github.com/danhper/asdf-python.git"
+        "rust https://github.com/code-lever/asdf-rust.git"
     )
 
-    # Install plugins and latest versions
     for plugin in "${plugins[@]}"; do
-        log_info "Setting up $plugin..."
-        asdf plugin add "$plugin"
-        asdf install "$plugin" latest
-        asdf global "$plugin" latest
+        read -r name repo <<< "$plugin"
+        asdf plugin-add "$name" "$repo" >> "$INSTALL_LOG" 2>> "$ERROR_LOG" || {
+            log_warning "Failed to add $name plugin"
+            continue
+        }
+        log_info "Added $name plugin"
     done
 
-    # Rehash after installing all tools
-    asdf reshim
-
-    log_success "Programming languages and tools installed via asdf"
-}
-
-configure_asdf() {
-    install_asdf
-    source "$HOME/.asdf/asdf.sh"
-    setup_asdf
+    log_success "asdf configuration completed"
 }
 
 configure_asdf
