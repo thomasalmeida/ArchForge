@@ -1,4 +1,5 @@
 #!/bin/bash
+
 source "$(dirname "$0")/utils.sh"
 
 prepare_system() {
@@ -9,6 +10,9 @@ prepare_system() {
 
     # Configure pacman and install yay
     bash "system/pacman/config.sh"
+
+    # Install base system packages
+    bash "system/setup.sh"
 
     log_success "System preparation completed"
 }
