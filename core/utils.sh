@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/init.sh"
-
 # Track failed package installations
 declare -a FAILED_PACKAGES=()
 
@@ -56,7 +54,6 @@ install_packages_from_list() {
             continue
         fi
         log "SUCCESS" "Installed $package"
-
     done < "$full_path"
 
     # Show installation summary

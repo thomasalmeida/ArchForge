@@ -3,7 +3,7 @@
 # Get the project root directory
 export PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# Core utilities
+# Core utilities in order
 source "${PROJECT_ROOT}/core/logging.sh"
 source "${PROJECT_ROOT}/core/utils.sh"
 source "${PROJECT_ROOT}/core/modules.sh"
