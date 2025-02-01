@@ -1,4 +1,5 @@
 #!/bin/bash
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 configure_environment() {
     log "INFO" "Configuring ASDF version manager..."

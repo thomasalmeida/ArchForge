@@ -1,7 +1,5 @@
 #!/bin/bash
-
-#!/bin/bash
-source "$(dirname "$0")/utils.sh"
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 setup_user_choices() {
     local base_dir="$(realpath "$(dirname "$0")/..")"

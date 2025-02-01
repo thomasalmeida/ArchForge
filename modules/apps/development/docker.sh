@@ -1,4 +1,5 @@
 #!/bin/bash
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 configure_docker_services() {
     if command -v docker &> /dev/null; then

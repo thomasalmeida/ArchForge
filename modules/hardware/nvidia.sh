@@ -1,4 +1,5 @@
 #!/bin/bash
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 configure_gpu() {
     log "INFO" "Configuring NVIDIA GPU..."

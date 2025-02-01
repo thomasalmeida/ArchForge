@@ -1,6 +1,5 @@
 #!/bin/bash
-
-source "$(dirname "$0")/utils.sh"
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 install_env_packages() {
     local conf_file="environments/${ENV_CHOICE}/packages.conf"

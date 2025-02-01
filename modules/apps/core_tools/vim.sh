@@ -1,4 +1,5 @@
 #!/bin/bash
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 configure_vim() {
     log_info "Configuring Vim..."

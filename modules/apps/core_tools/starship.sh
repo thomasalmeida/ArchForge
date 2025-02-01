@@ -1,4 +1,5 @@
 #!/bin/bash
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 configure_starship() {
     if command -v starship &> /dev/null; then

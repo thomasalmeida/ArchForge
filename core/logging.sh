@@ -8,15 +8,6 @@ BLUE='\033[0;34m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-# Log file setup
-LOG_FILE="/var/log/archforge.log"
-
-# Create log file with proper permissions if it doesn't exist
-if [ ! -f "$LOG_FILE" ]; then
-    sudo touch "$LOG_FILE"
-    sudo chmod 644 "$LOG_FILE"
-fi
-
 log() {
     local level=$1
     local message=$2
@@ -32,5 +23,5 @@ log() {
     esac
 
     # Log to file
-    echo "$formatted_message" | sudo tee -a "$LOG_FILE" >/dev/null
+    echo "$formatted_message" >> "$ARCHFORGE_LOG"
 }

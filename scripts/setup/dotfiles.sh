@@ -1,6 +1,5 @@
 #!/bin/bash
-
-source "$(dirname "$0")/utils.sh"
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 setup_dotfiles() {
     local dotfiles_repo="https://github.com/thomasalmeida/dotfiles.git"

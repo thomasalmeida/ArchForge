@@ -1,6 +1,5 @@
 #!/bin/bash
-
-source "$(dirname "$0")/utils.sh"
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 prepare_system() {
     log_info "Preparing system for installation..."

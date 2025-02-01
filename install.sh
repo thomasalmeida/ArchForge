@@ -1,6 +1,5 @@
 #!/bin/bash
-
-source "$(dirname "${BASH_SOURCE[0]}")/core/init.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/core/bootstrap.sh"RCE[0]}")/core/init.sh"
 
 # Register all modules
 register_modules() {

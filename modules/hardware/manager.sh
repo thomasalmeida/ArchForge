@@ -1,4 +1,5 @@
 #!/bin/bash
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 select_and_install_gpu() {
     log "INFO" "Selecting available GPU configurations..."

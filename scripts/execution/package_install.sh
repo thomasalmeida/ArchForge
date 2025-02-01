@@ -1,6 +1,5 @@
 #!/bin/bash
-
-source "$(dirname "$0")/../scripts/utils.sh"
+source "${ARCHFORGE_ROOT}/core/bootstrap.sh"
 
 setup_system() {
     log_info "Installing base system packages..."
