@@ -1,10 +1,9 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${SCRIPT_DIR}/logging.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/init.sh"
 
 # Track failed package installations
-FAILED_PACKAGES=()
+declare -a FAILED_PACKAGES=()
 
 track_failed_package() {
     FAILED_PACKAGES+=("$1")
@@ -32,7 +31,14 @@ backup_file() {
 
 install_packages_from_list() {
     local config_file=$1
+    local full_path="${PROJECT_ROOT}/${config_file}"
+
     log "INFO" "Installing packages from $config_file"
+
+    if [ ! -f "$full_path" ]; then
+        log "ERROR" "Package list not found: $config_file"
+        return 1
+    }
 
     # Check if yay is installed
     if ! command -v yay &> /dev/null; then
@@ -51,7 +57,7 @@ install_packages_from_list() {
         fi
         log "SUCCESS" "Installed $package"
 
-    done < "$config_file"
+    done < "$full_path"
 
     # Show installation summary
     show_failed_packages
