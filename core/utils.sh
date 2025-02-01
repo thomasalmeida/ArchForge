@@ -42,7 +42,7 @@ install_packages_from_list() {
     if ! command -v yay &> /dev/null; then
         log "ERROR" "Yay is not installed. Install it first."
         return 1
-    }
+    fi
 
     while read -r package; do
         # Skip comments and empty lines

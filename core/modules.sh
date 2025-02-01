@@ -34,7 +34,7 @@ configure_modules() {
     if [ $total -eq 0 ]; then
         log "WARNING" "No modules found in category: ${category}"
         return 0
-    }
+    fi
 
     log "INFO" "Configuring ${category} modules (${total} found)..."
 
