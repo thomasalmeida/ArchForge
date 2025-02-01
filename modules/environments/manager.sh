@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../core/init.sh"
-
 select_and_install_environment() {
     log "INFO" "Selecting available environments..."
 

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../../../core/init.sh"
-
 configure_fish() {
     if command -v fish &> /dev/null; then
         # Add fish to shells if not present

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../../../core/init.sh"
-
 configure_audio_services() {
     log_info "Configuring audio services..."
 

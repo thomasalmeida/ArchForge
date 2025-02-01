@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../core/init.sh"
-
 install_yay() {
     if ! command -v yay &> /dev/null; then
         log "INFO" "Installing yay..."

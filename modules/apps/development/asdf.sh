@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/../../../../core/init.sh"
-
 configure_environment() {
     log "INFO" "Configuring ASDF version manager..."
 

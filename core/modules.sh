@@ -13,7 +13,7 @@ register_module() {
     if [ ! -f "$script_path" ]; then
         log "WARNING" "Module script not found: $script_path"
         return 1
-    }
+    fi
 
     MODULES["${category}/${name}"]="${script_path}:${config_function}"
     log "INFO" "Registered module: ${category}/${name}"

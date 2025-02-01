@@ -36,7 +36,7 @@ install_packages_from_list() {
     if [ ! -f "$full_path" ]; then
         log "ERROR" "Package list not found: $config_file"
         return 1
-    }
+    fi
 
     # Check if yay is installed
     if ! command -v yay &> /dev/null; then

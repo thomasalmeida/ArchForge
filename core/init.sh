@@ -8,15 +8,12 @@ source "${PROJECT_ROOT}/core/logging.sh"
 source "${PROJECT_ROOT}/core/utils.sh"
 source "${PROJECT_ROOT}/core/modules.sh"
 
-# Function to source module files
-source_module() {
-    local module_path="$1"
-    local full_path="${PROJECT_ROOT}/${module_path}"
-
-    if [ -f "$full_path" ]; then
-        source "$full_path"
-    else
-        log "ERROR" "Module not found: ${module_path}"
-        return 1
-    fi
-}
+# Export core functions
+export -f register_module
+export -f configure_modules
+export -f source_module
+export -f log
+export -f track_failed_package
+export -f show_failed_packages
+export -f backup_file
+export -f install_packages_from_list
