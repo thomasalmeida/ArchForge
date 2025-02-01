@@ -6,10 +6,13 @@ configure_environment() {
     # Install packages
     install_packages_from_list "configs/packages/hyprland.conf"
 
-    # Configure electron
+    # Configure electron for better Wayland support
     configure_electron() {
-        echo "--enable-features=WaylandWindowDecorations" > "$HOME/.config/electron-flags.conf"
-        echo "--ozone-platform-hint=auto" >> "$HOME/.config/electron-flags.conf"
+        local electron_flags="$HOME/.config/electron-flags.conf"
+        echo "--enable-features=WaylandWindowDecorations" > "$electron_flags"
+        echo "--ozone-platform-hint=auto" >> "$electron_flags"
+        echo "--enable-features=UseOzonePlatform" >> "$electron_flags"
+        echo "--ozone-platform=wayland" >> "$electron_flags"
     }
 
     configure_electron

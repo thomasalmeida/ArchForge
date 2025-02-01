@@ -3,15 +3,34 @@
 select_and_install_environment() {
     log "INFO" "Detecting available environments..."
 
-    local environments=($(ls modules/environments | grep -v manager.sh))
+    # Find all environment files excluding manager.sh
+    local env_dir="modules/environments"
+    local environments=()
+    while IFS= read -r -d '' file; do
+        # Get filename without .sh and exclude manager
+        local env_name=$(basename "$file" .sh)
+        if [ "$env_name" != "manager" ]; then
+            environments+=("$env_name")
+        fi
+    done < <(find "$env_dir" -maxdepth 1 -type f -name "*.sh" -print0)
 
-    PS3="Select your desktop environment: "
+    if [ ${#environments[@]} -eq 0 ]; then
+        log "ERROR" "No environment configurations found"
+        return 1
+    fi
+
+    # Show selection menu
+    PS3=$'\n'"Select desktop environment to install: "
     select env in "${environments[@]}" "None"; do
         case $env in
-            "None") break ;;
+            "None")
+                log "INFO" "Skipping environment installation"
+                break
+                ;;
             *)
-                if [[ -f "modules/environments/$env" ]]; then
-                    source "modules/environments/$env"
+                if [[ " ${environments[@]} " =~ " ${env} " ]]; then
+                    log "INFO" "Selected environment: $env"
+                    source "$env_dir/$env.sh"
                     configure_environment
                     break
                 else

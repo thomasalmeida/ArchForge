@@ -1,36 +1,43 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../scripts/utils.sh"
+source "$(dirname "$0")/../../core/logging.sh"
 
 configure_services() {
-    log_info "Configuring services..."
+    log "INFO" "Configuring services..."
 
     # Configure selected environment
-    bash "environments/${ENV_CHOICE}/config.sh"
+    source "modules/environments/hyprland.sh"
+    configure_environment
 
     # Configure GPU if selected
     if [ "$GPU_VENDOR" != "none" ]; then
-        bash "hardware/gpu/${GPU_VENDOR}/config.sh"
+        source "modules/hardware/${GPU_VENDOR}.sh"
+        configure_gpu
     fi
 
     # Configure core services
-    bash "apps/core/services/audio/services.sh"
-
-    # Configure Git
-    bash "apps/core/git/config.sh"
-
-    # Configure shell
-    bash "apps/core/shell/fish/config.sh"
-    bash "apps/core/shell/starship/config.sh"
-
-    # Configure editors
-    bash "apps/core/editors/vim/config.sh"
+    source "modules/apps/services/audio.sh"
+    configure_audio_services
 
     # Configure development tools
-    bash "apps/dev/docker/services.sh"
-    bash "apps/dev/asdf/config.sh"
+    source "modules/apps/development/docker.sh"
+    configure_docker_services
 
-    log_success "All services configured"
+    source "modules/apps/development/asdf.sh"
+    configure_asdf
+
+    # Configure core tools
+    source "modules/apps/core_tools/git.sh"
+    configure_git
+
+    source "modules/apps/core_tools/vim.sh"
+    configure_vim
+
+    source "modules/apps/core_tools/fish.sh"
+    configure_fish
+
+    source "modules/apps/core_tools/starship.sh"
+    configure_starship
+
+    log "SUCCESS" "All services configured"
 }
-
-configure_services

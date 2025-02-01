@@ -1,42 +1,31 @@
 # ArchForge
 
-A personal script collection designed to automate my post-installation setup of Arch Linux. This tool configures my system with my commonly used applications, development tools, and personal settings.
+Personal scripts to automate my Arch Linux post-installation setup.
 
-## Installation
+## Usage
 
-1. Clone the repository:
 ```bash
 git clone https://github.com/thomasalmeida/archforge.git
 cd archforge
-```
-
-2. Run the installer:
-```bash
 ./install.sh
 ```
 
-## What It Does
+## Features
 
-The installer will:
+- System update and package manager configuration
+- GPU driver setup (NVIDIA)
+- Desktop environment installation (Hyprland)
+- Development environment setup (Docker, ASDF)
+- Shell configuration (Fish, Starship)
+- Audio services (Pipewire)
+- Personal dotfiles installation
 
-1. Update your system and configure pacman
-2. Install and configure Yay for AUR support
-3. Let you choose your GPU (currently supports NVIDIA)
-4. Let you choose your desktop environment (currently supports Hyprland)
-5. Install and configure selected packages
-6. Configure system services (audio, docker, etc.)
-7. Optionally install personal dotfiles
+## Configuration
 
-## Customization
+Main package list is in `configs/packages/base.conf`:
+- Add/remove packages as needed
+- Comment out packages with # to skip installation
 
-The main package configuration is in `packages/base.conf`. You can customize your installation by:
-- Adding new packages you want to install
-- Removing packages you don't want
-- Commenting out packages with # to skip installation
+## Note
 
-## Important Notes
-
-- The installer requires sudo privileges for certain operations
-- Some packages are installed from AUR, which might take longer to compile
-- Make sure to backup your data before running the installer
-- The dotfiles installation will override existing configurations in `~/.config`
+This is a personal configuration tool. Make sure to review the configs before running on your system.
