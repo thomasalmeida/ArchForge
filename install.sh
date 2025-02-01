@@ -24,5 +24,33 @@ register_modules() {
 }
 
 main() {
-    # ... resto do código ...
+    log "INFO" "Starting ArchForge installation"
+
+    # Register all modules
+    register_modules
+
+    # Phase 1: System Setup
+    log "INFO" "=== SYSTEM CONFIGURATION ==="
+    configure_modules "system" true
+
+    # Phase 2: Hardware Setup
+    log "INFO" "=== HARDWARE CONFIGURATION ==="
+    source_module "modules/hardware/manager.sh"
+    select_and_install_gpu
+
+    # Phase 3: Environment Setup
+    log "INFO" "=== DESKTOP ENVIRONMENT ==="
+    source_module "modules/environments/manager.sh"
+    select_and_install_environment
+
+    # Phase 4: Configure all modules by category
+    log "INFO" "=== CONFIGURING MODULES ==="
+    configure_modules "core" true
+    configure_modules "dev" true
+    configure_modules "services" true
+
+    log "SUCCESS" "Installation completed successfully"
+    log "INFO" "Please reboot your system to apply changes"
 }
+
+main "$@"
