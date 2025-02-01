@@ -1,11 +1,14 @@
 #!/bin/bash
 
-source core/logging.sh
-source core/utils.sh
-source core/modules.sh
+source "$(dirname "${BASH_SOURCE[0]}")/core/init.sh"
 
 # Register all modules
 register_modules() {
+    # Core system modules
+    register_module "system" "boot" "modules/system/boot.sh" "configure_boot"
+    register_module "system" "pacman" "modules/system/pacman.sh" "configure_pacman"
+    register_module "system" "services" "modules/system/services.sh" "configure_services"
+
     # Core tools
     register_module "core" "git" "modules/apps/core_tools/git.sh" "configure_git"
     register_module "core" "vim" "modules/apps/core_tools/vim.sh" "configure_vim"
@@ -28,17 +31,16 @@ main() {
 
     # Phase 1: System Setup
     log "INFO" "=== SYSTEM CONFIGURATION ==="
-    source modules/system/pacman.sh
-    configure_pacman
+    configure_modules "system" true
 
     # Phase 2: Hardware Setup
     log "INFO" "=== HARDWARE CONFIGURATION ==="
-    source modules/hardware/manager.sh
+    source_module "modules/hardware/manager.sh"
     select_and_install_gpu
 
     # Phase 3: Environment Setup
     log "INFO" "=== DESKTOP ENVIRONMENT ==="
-    source modules/environments/manager.sh
+    source_module "modules/environments/manager.sh"
     select_and_install_environment
 
     # Phase 4: Configure all modules by category

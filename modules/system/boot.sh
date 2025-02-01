@@ -1,26 +1,29 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../../scripts/utils.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../core/init.sh"
 
 configure_boot() {
-    log_info "Configuring systemd-boot..."
+    log "INFO" "Configuring systemd-boot..."
 
     local loader_conf="/boot/loader/loader.conf"
+    local entries_dir="/boot/loader/entries"
 
-    # Create directory if not exists
-    sudo mkdir -p /boot/loader/entries
+    # Create entries directory if it doesn't exist
+    if [ ! -d "$entries_dir" ]; then
+        sudo mkdir -p "$entries_dir"
+    fi
 
-    # Only modify if file exists
+    # Configure loader if it exists
     if [ -f "$loader_conf" ]; then
         # Remove timeout
         sudo sed -i 's/timeout .*/timeout 0/' "$loader_conf"
 
         # Remove quiet parameter from all entries
-        sudo find /boot/loader/entries -name "*.conf" -exec sed -i 's/ quiet//g' {} +
-        log_success "Boot configuration completed"
+        sudo find "$entries_dir" -name "*.conf" -exec sed -i 's/ quiet//g' {} +
+
+        log "SUCCESS" "Boot configuration completed"
     else
-        log_warning "loader.conf not found, skipping boot configuration"
+        log "ERROR" "loader.conf not found at $loader_conf"
+        return 1
     fi
 }
-
-configure_boot

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../../core/logging.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../core/init.sh"
 
 configure_services() {
     log "INFO" "Configuring services..."

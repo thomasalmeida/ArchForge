@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../../../../scripts/utils.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../../core/init.sh"
 
 configure_vim() {
     log_info "Configuring Vim..."

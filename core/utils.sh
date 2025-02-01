@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source "$(dirname "$0")/logging.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/logging.sh"
 
 # Track failed package installations
 FAILED_PACKAGES=()
@@ -21,9 +22,23 @@ show_failed_packages() {
     return 1
 }
 
+backup_file() {
+    local file=$1
+    if [ -f "$file" ]; then
+        sudo cp "$file" "${file}.backup"
+        log "INFO" "Backed up $file to ${file}.backup"
+    fi
+}
+
 install_packages_from_list() {
     local config_file=$1
     log "INFO" "Installing packages from $config_file"
+
+    # Check if yay is installed
+    if ! command -v yay &> /dev/null; then
+        log "ERROR" "Yay is not installed. Install it first."
+        return 1
+    }
 
     while read -r package; do
         # Skip comments and empty lines

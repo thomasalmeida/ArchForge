@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../../../../scripts/utils.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../../../core/init.sh"
 
 configure_fish() {
     if command -v fish &> /dev/null; then

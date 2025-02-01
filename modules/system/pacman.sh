@@ -1,22 +1,22 @@
 #!/bin/bash
 
-source "$(dirname "$0")/../../scripts/utils.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../../core/init.sh"
 
 install_yay() {
     if ! command -v yay &> /dev/null; then
-        log_info "Installing yay..."
+        log "INFO" "Installing yay..."
         local temp_dir=$(mktemp -d)
-        git clone https://aur.archlinux.org/yay.git "$temp_dir" >/dev/null 2>> "$ERROR_LOG"
-        (cd "$temp_dir" && makepkg -si --noconfirm >/dev/null 2>> "$ERROR_LOG")
+        git clone https://aur.archlinux.org/yay.git "$temp_dir"
+        (cd "$temp_dir" && makepkg -si --noconfirm)
         rm -rf "$temp_dir"
-        log_success "Yay installed successfully"
+        log "SUCCESS" "Yay installed successfully"
     else
-        log_info "Yay already installed"
+        log "INFO" "Yay already installed"
     fi
 }
 
 configure_pacman() {
-    log_info "Configuring pacman..."
+    log "INFO" "Configuring pacman..."
 
     backup_file "/etc/pacman.conf"
 
@@ -24,7 +24,5 @@ configure_pacman() {
     sudo sed -i 's/#Color/Color/; s/#ParallelDownloads = 5/ParallelDownloads = 10/; s/#VerbosePkgLists/ILoveCandy/' /etc/pacman.conf
 
     install_yay
-    log_success "Pacman configuration completed"
+    log "SUCCESS" "Pacman configuration completed"
 }
-
-configure_pacman
